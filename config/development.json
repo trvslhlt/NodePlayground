@@ -1,0 +1,13 @@
+{
+  "rollbar": {
+    "accessToken": "c785253a14a64f09b35f591b84af3828"
+  },
+  "log": {
+    "levels": {
+      "info":   true,
+      "warn":   true,
+      "error":  true,
+      "fatal":  true
+    }
+  }
+}
