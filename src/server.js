@@ -63,34 +63,12 @@ function internalStart(f) {
         }))
     }
 
-
-    //Rollbar.configure({checkIgnore: function(isUncaught, args, payload) {
-    //    // ignore all uncaught errors and all 'debug' items
-    //    return isUncaught === true || payload.data.level === 'debug';
-    //}});
-
-    // Set the environment, default log level and the context
-//
-//    rollbar.configure({logLevel: 'info', payload: {environment: 'development', context: 'home#index'}});
-//    Rollbar.log('this will be sent with level="info"');
-//
-//// Only send "error" or higher items to Rollbar
-//    Rollbar.configure({reportLevel: 'error'});
-//    Rollbar.info('this will not get reported to Rollbar since it\'s at the "info" level');
-//
-//// Set the person information to be sent with all items to Rollbar
-//    Rollbar.configure({payload: {person: {id: 12345, email: 'stewie@familyguy.com'}}});
-//
-//// Add the following payload data to all items sent to Rollbar from this
-//// notifier or any created using window.Rollbar.scope()
-//    Rollbar.configure({payload: {sessionId: "asdf12345"}});
-
     var options = {
         level: "info",
         exitOnCaughtExceptions: true
     }
-    rollbar.handleUncaughtExceptions('c785253a14a64f09b35f591b84af3828', options);
-    app.use(rollbar.errorHandler('c785253a14a64f09b35f591b84af3828'))
+    rollbar.handleUncaughtExceptions(nconf.get('ROLLBAR_ACCESS_TOKEN'), options);
+        app.use(rollbar.errorHandler(nconf.get('ROLLBAR_ACCESS_TOKEN')))
 
 
 

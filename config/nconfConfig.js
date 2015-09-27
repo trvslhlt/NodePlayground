@@ -8,6 +8,7 @@ var nconf = require('nconf'),
 
 // Configure nconf
 nconf.argv().env();
+
 var nodeEnvironment = nconf.get("NODE_ENV");
 if (!nodeEnvironment) {
     log.warn("NODE_ENV not defined, falling back to development configuration");
