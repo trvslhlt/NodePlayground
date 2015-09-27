@@ -15,11 +15,11 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     expressValidator = require('express-validator'),
     rollbar = require('rollbar'),
-    DummyHandler = require('./routes/DummyHandler'),
-    ErrorTemplate = require('./routes/ViewTemplates/ErrorTemplate').ErrorTemplate
+    DummyHandler = require('./routes/dummyHandler'),
+    ErrorTemplate = require('./routes/viewTemplates/externalError').ErrorTemplate
 
 function start(f) {
-    //setup the DB connection
+    //TODO: setup the DB connection
     return internalStart(f)
 }
 
@@ -64,26 +64,38 @@ function internalStart(f) {
     }
 
 
+    //Rollbar.configure({checkIgnore: function(isUncaught, args, payload) {
+    //    // ignore all uncaught errors and all 'debug' items
+    //    return isUncaught === true || payload.data.level === 'debug';
+    //}});
 
+    // Set the environment, default log level and the context
+//
+//    rollbar.configure({logLevel: 'info', payload: {environment: 'development', context: 'home#index'}});
+//    Rollbar.log('this will be sent with level="info"');
+//
+//// Only send "error" or higher items to Rollbar
+//    Rollbar.configure({reportLevel: 'error'});
+//    Rollbar.info('this will not get reported to Rollbar since it\'s at the "info" level');
+//
+//// Set the person information to be sent with all items to Rollbar
+//    Rollbar.configure({payload: {person: {id: 12345, email: 'stewie@familyguy.com'}}});
+//
+//// Add the following payload data to all items sent to Rollbar from this
+//// notifier or any created using window.Rollbar.scope()
+//    Rollbar.configure({payload: {sessionId: "asdf12345"}});
 
-    //rollbar-----------------------------------------------
-    //rollbar.init("c785253a14a64f09b35f591b84af3828");
-    //rollbar.reportMessage('my message')
     var options = {
+        level: "info",
         exitOnCaughtExceptions: true
     }
     rollbar.handleUncaughtExceptions('c785253a14a64f09b35f591b84af3828', options);
     app.use(rollbar.errorHandler('c785253a14a64f09b35f591b84af3828'))
 
-    //var options = {
-    //    exitOnCaughtExceptions: true
-    //}
-    //rollbar.handleUncaughtExceptions('cfb67cfae3774da483571bee20a1797c', options);
-    //app.use(rollbar.errorHandler('cfb67cfae3774da483571bee20a1797c'));
-    //rollbar-----------------------------------------------
 
-    //Define error-handling middleware like other middleware,
-    // except with four arguments instead of three, specifically with the signature (err, req, res, next)
+
+
+
     app.use((err, req, res, next) => {
         var statusCode = 500;
         if (req.validationErrors()) {
