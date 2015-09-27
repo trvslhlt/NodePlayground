@@ -1,7 +1,6 @@
 {
   "name": "Playground",
   "version": "0.0.0",
-  "private": true,
   "engines": {
     "node": "4.1.x",
     "npm": "2.14.x"
